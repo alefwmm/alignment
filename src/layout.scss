@@ -1,0 +1,229 @@
+$hXAlign: (
+    "left": "flex-start",
+    "center": "center",
+    "right": "flex-end",
+    "between": "space-between",
+    "around": "space-around",
+    "evenly": "space-evenly",
+    "stretch": "stretch"
+);
+
+$hYAlign: (
+    "top": "flex-start",
+    "middle": "center",
+    "bottom": "flex-end",
+    "stretch": "stretch"
+);
+
+$hWrap: (
+    "wrap": "normal",
+    "wrap-top": "flex-start",
+    "wrap-middle": "center",
+    "wrap-bottom": "flex-end",
+    "wrap-stretch": "stretch",
+    "wrap-between": "space-between",
+    "wrap-around": "space-around",
+    "wrap-evenly": "space-evenly"
+);
+
+$vXAlign: (
+    "left": "flex-start",
+    "center": "center",
+    "right": "flex-end",
+    "stretch": "stretch"
+);
+
+$vYAlign: (
+    "top": "flex-start",
+    "middle": "center",
+    "bottom": "flex-end",
+    "between": "space-between",
+    "around": "space-around",
+    "evenly": "space-evenly",
+    "stretch": "stretch"
+);
+
+$vWrap: (
+    "wrap": "normal",
+    "wrap-left": "flex-start",
+    "wrap-center": "center",
+    "wrap-right": "flex-end",
+    "wrap-stretch": "stretch",
+    "wrap-between": "space-between",
+    "wrap-around": "space-around",
+    "wrap-evenly": "space-evenly"
+);
+
+$gridSize: 4;
+
+@mixin spacing($prefix: "") {
+    @for $i from 1 through 30 {
+        &.#{$prefix}g#{$i*$gridSize} > * {
+            margin-left: #{$i*$gridSize}px;
+            margin-top: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}gx#{$i*$gridSize} > * {
+            margin-left: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}gy#{$i*$gridSize} > * {
+            margin-top: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}g#{$i*$gridSize} {
+            margin-left: -#{$i*$gridSize}px;
+            margin-top: -#{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}gx#{$i*$gridSize} {
+            margin-left: -#{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}gy#{$i*$gridSize} {
+            margin-top: -#{$i*$gridSize}px;
+        }
+    }
+
+    @for $i from 1 through 30 {
+        &.#{$prefix}p#{$i*$gridSize} {
+            padding: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}px#{$i*$gridSize} {
+            padding-left: #{$i*$gridSize}px;
+            padding-right: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}py#{$i*$gridSize} {
+            padding-top: #{$i*$gridSize}px;
+            padding-bottom: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}pt#{$i*$gridSize} {
+            padding-top: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}pl#{$i*$gridSize} {
+            padding-left: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}pb#{$i*$gridSize} {
+            padding-bottom: #{$i*$gridSize}px;
+        }
+
+        &.#{$prefix}pr#{$i*$gridSize} {
+            padding-right: #{$i*$gridSize}px;
+        }
+    }
+}
+
+@mixin horizontal-layout($prefix: "") {
+    .#{$prefix}horizontal {
+        display: flex;
+        flex-direction: row;
+        overflow: visible;
+
+        @each $hxa, $hxav in $hXAlign {
+            @each $hya, $hyav in $hYAlign {
+                &.#{$prefix}#{$hxa}-#{$hya} {
+                    align-items: #{$hyav};
+                    justify-content: #{$hxav};
+                }
+            }
+        }
+
+        @each $hya, $hyav in $hYAlign {
+            &.#{$prefix}stretch-#{$hya} > * {
+                flex: 1 0 auto;
+            }
+        }
+
+        & > * {
+            flex: 0 0 auto;
+        }
+
+        &.#{$prefix}no-wrap {
+            flex-wrap: nowrap;
+        }
+
+        @each $hw, $hwv in $hWrap {
+            &.#{$prefix}#{$hw} {
+                flex-wrap: wrap;
+                align-content: #{$hwv};
+            }
+        }
+    }
+}
+
+@mixin vertical-layout($prefix: "") {
+    .#{$prefix}vertical {
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+
+        @each $vxa, $vxav in $vXAlign {
+            @each $vya, $vyav in $vYAlign {
+                &.#{$prefix}#{$vxa}-#{$vya} {
+                    align-items: #{$vxav};
+                    justify-content: #{$vyav};
+                }
+            }
+        }
+
+        @each $vxa, $vxav in $vXAlign {
+            &.#{$prefix}#{$vxa}-stretch > * {
+                flex: 1 0 auto;
+            }
+        }
+
+        & > * {
+            flex: 0 0 auto;
+        }
+
+        &.#{$prefix}no-wrap {
+            flex-wrap: nowrap;
+        }
+
+        @each $vw, $vwv in $vWrap {
+            &.#{$prefix}#{$vw} {
+                flex-wrap: wrap;
+                align-content: #{$vwv};
+            }
+        }
+    }
+}
+
+@include horizontal-layout();
+@include vertical-layout();
+@include spacing();
+
+@media all and (max-width: 599.5px) {
+    @include horizontal-layout("m-");
+    @include vertical-layout("m-");
+    @include spacing("m-");
+}
+
+@media all and (min-width: 599.5px) and (max-width: 1079.5px) {
+    @include horizontal-layout("t-");
+    @include vertical-layout("t-");
+    @include spacing("t-");
+}
+
+@media all and (min-width: 1079.5px) {
+    @include horizontal-layout("d-");
+    @include vertical-layout("d-");
+    @include spacing("d-");
+}
+
+@media all and (max-width: 1079.5px) {
+    @include horizontal-layout("mt-");
+    @include vertical-layout("mt-");
+    @include spacing("mt-");
+}
+
+@media all and (min-width: 599.5px) {
+    @include horizontal-layout("td-");
+    @include vertical-layout("td-");
+    @include spacing("td-");
+}
