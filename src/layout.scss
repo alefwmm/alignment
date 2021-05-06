@@ -58,30 +58,16 @@ $gridSize: 4;
 
 @mixin spacing($prefix: "") {
     @for $i from 1 through 30 {
-        &.#{$prefix}g#{$i*$gridSize} > * {
-            margin-left: #{$i*$gridSize}px;
-            margin-top: #{$i*$gridSize}px;
-        }
-
-        &.#{$prefix}gx#{$i*$gridSize} > * {
-            margin-left: #{$i*$gridSize}px;
-        }
-
-        &.#{$prefix}gy#{$i*$gridSize} > * {
-            margin-top: #{$i*$gridSize}px;
-        }
-
         &.#{$prefix}g#{$i*$gridSize} {
-            margin-left: -#{$i*$gridSize}px;
-            margin-top: -#{$i*$gridSize}px;
+            gap: $i * $gridSize * 1px
         }
 
         &.#{$prefix}gx#{$i*$gridSize} {
-            margin-left: -#{$i*$gridSize}px;
+            column-gap: $i * $gridSize * 1px;
         }
 
         &.#{$prefix}gy#{$i*$gridSize} {
-            margin-top: -#{$i*$gridSize}px;
+            row-gap: $i * $gridSize * 1px;
         }
     }
 
@@ -194,36 +180,106 @@ $gridSize: 4;
     }
 }
 
+@mixin horizontal-self($prefix: "") {
+    @each $hya, $hyav in $hYAlign {
+        .#{$prefix}self-#{$hya} {
+            align-self: #{$hyav};
+        }
+    }
+
+    .#{$prefix}pull-right {
+        margin-left: auto;
+    }
+
+    .#{$prefix}pull-left {
+        margin-right: auto;
+    }
+}
+
+@mixin vertical-self($prefix: "") {
+    @each $vxa, $vxav in $vXAlign {
+        .#{$prefix}self-#{$vxa} {
+            align-self: #{$vxav};
+        }
+    }
+
+    .#{$prefix}pull-top {
+        margin-bottom: auto;
+    }
+
+    .#{$prefix}pull-bottom {
+        margin-top: auto;
+    }
+}
+
+@mixin extra($prefix: "") {
+    .#{$prefix}flex {
+        flex-grow: 1;
+    }
+
+    @for $i from 1 through 5 {
+        .#{$prefix}flex-#{$i} {
+            flex-grow: $i;
+        }
+    }
+
+    .#{$prefix}hidden {
+        display: none;
+    }
+
+    .#{$prefix}invisible {
+        visibility: hidden;
+    }
+}
+
+@include horizontal-self();
 @include horizontal-layout();
+@include vertical-self();
 @include vertical-layout();
 @include spacing();
+@include extra();
 
 @media all and (max-width: 599.5px) {
+    @include horizontal-self("m-");
     @include horizontal-layout("m-");
+    @include vertical-self("m-");
     @include vertical-layout("m-");
     @include spacing("m-");
+    @include extra("-m");
 }
 
 @media all and (min-width: 599.5px) and (max-width: 1079.5px) {
+    @include horizontal-self("t-");
     @include horizontal-layout("t-");
+    @include vertical-self("t-");
     @include vertical-layout("t-");
     @include spacing("t-");
+    @include extra("t-");
 }
 
 @media all and (min-width: 1079.5px) {
+    @include horizontal-self("d-");
     @include horizontal-layout("d-");
     @include vertical-layout("d-");
+    @include vertical-self("d-");
     @include spacing("d-");
+    @include extra("d-");
 }
 
 @media all and (max-width: 1079.5px) {
+    @include horizontal-self("mt-");
     @include horizontal-layout("mt-");
     @include vertical-layout("mt-");
+    @include vertical-self("mt-");
     @include spacing("mt-");
+    @include extra("mt-");
 }
 
 @media all and (min-width: 599.5px) {
+    @include horizontal-self("td-");
     @include horizontal-layout("td-");
     @include vertical-layout("td-");
+    @include vertical-self("td-");
     @include spacing("td-");
+    @include extra("td-");
 }

@@ -190,15 +190,9 @@ const LayoutConfig = ({ onChange=(() => void(0)) }: LayoutConfigProps) => {
         <div className='d1' />
         <div className='d2' />
         <div className='d3' />
-        <div className='d1' />
-        <div className='d2' />
-        <div className='d3' />
     </div>
       ) : (
         <div className={'container-v ' + className}>
-          <div className='d1' />
-          <div className='d2' />
-          <div className='d3' />
           <div className='d1' />
           <div className='d2' />
           <div className='d3' />
